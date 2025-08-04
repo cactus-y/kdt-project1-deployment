@@ -154,14 +154,14 @@ window.addEventListener('DOMContentLoaded', () => {
     fetch('./data/videos.json')
         .then(res => res.json())
         .then(videos => {
-            if(window.location.pathname === '/index.html') {
+            if(window.location.pathname === '/kdt-project1-deployment/index.html' || window.location.pathname === '/kdt-project1-deployment') {
                 shuffleArray(videos)
                 renderVideoCards(videos)
-            } else if(window.location.pathname === '/subscriptions.html') {
+            } else if(window.location.pathname === '/kdt-project1-deployment/subscriptions.html') {
                 const filteredVideos = videos.filter(v => subscribed.includes(v.channel))
                 shuffleArray(filteredVideos)
                 renderVideoCards(filteredVideos)
-            } else if(window.location.pathname === '/search.html') {
+            } else if(window.location.pathname === '/kdt-project1-deployment/search.html') {
                 const query = new URLSearchParams(window.location.search).get('search_query')?.trim()
 
                 if(!query) {
