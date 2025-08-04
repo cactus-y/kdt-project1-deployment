@@ -154,7 +154,7 @@ window.addEventListener('DOMContentLoaded', () => {
     fetch('./data/videos.json')
         .then(res => res.json())
         .then(videos => {
-            if(window.location.pathname === '/kdt-project1-deployment/index.html' || window.location.pathname === '/kdt-project1-deployment') {
+            if(window.location.pathname === '/kdt-project1-deployment/index.html' || window.location.pathname === '/kdt-project1-deployment' || window.location.pathname === '/kdt-project1-deployment/') {
                 shuffleArray(videos)
                 renderVideoCards(videos)
             } else if(window.location.pathname === '/kdt-project1-deployment/subscriptions.html') {
