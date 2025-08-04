@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+<style>
+    #recommendedVideoListContainer {
+        width: 402px;
+        flex-shrink: 0;
+        display: block;
+    }
+
+    #recommendedSmallScreenContainer {
+        display: none;
+    }
+    #recommendedSmallScreenContainer .col {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+
+    .video-buttons {
+        flex-wrap: wrap;
+    }
+    
+    
+    /* video button responsive setting */
+    @media(max-width: 1340px) {
+        #offlineSaveButton {
+            display: none;
+        }
+    }
+    @media(max-width: 1545px) {
+        #thanksButton {
+            display: none;
+        }
+    }
+    @media(max-width: 1720px) {
+        #bookmarkButton {
+            display: none;
+        }
+    }
+    @media(max-width: 1055px) {
+        #offlineSaveButton {
+            display: block;
+        }
+        #recommendedVideoListContainer {
+            display: none;
+        }
+        #recommendedSmallScreenContainer {
+            display: flex;
+        }
+        #recommendedSmallScreenContainer .col {
+            width: 33.333333%;
+        }
+    }
+    @media(max-width: 935px) {
+        #recommendedSmallScreenContainer .col {
+            width: 50%;
+        }
+        #offlineSaveButton {
+            display: none;
+        }
+    }
+    @media(max-width: 700px) {
+        .video-btn-group {
+            flex-basis: 100%;
+        }
+        #offlineSaveButton,
+        #thanksButton,
+        #bookmarkButton {
+            display: block;
+        }
+    }
+    
+    @media(max-width: 670px) {
+        #bookmarkButton {
+            display: none;
+        }
+        #recommendedSmallScreenContainer .col {
+            width: 100%;
+        }
+    }
+    @media(max-width: 585px) {
+        #thanksButton {
+            display: none;
+        }
+    }
+
+    .btn.btn-not-subscribed {
+        background-color: black;
+    }
+
+    .btn.btn-not-subscribed:hover {
+        background-color: #272727;
+    }
+
+    .btn.btn-reply-list:hover {
+        background-color: #def1ff;
+    }
+
+    .modal.custom-slide .modal-dialog {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        will-change: transform;
+    }
+    .modal.custom-slide.show .modal-dialog {
+        transform: translateX(0%);
+    }
+
+    #dummyInputButton {
+        border: none;
+        border-bottom: 1px solid #e5e5e5;
+        resize: none;
+        overflow: hidden;
+        font-size: 14px;
+        box-shadow: none;
+        margin-bottom: 35px;
+    }
+    #dummyInputButton:focus {
+        outline: none;
+        box-shadow: none;
+        border-color: transparent;
+    }
+    
+    .form-textarea {
+        border: none;
+        border-bottom: 1px solid #909090;
+        resize: none;
+        overflow: hidden;
+        font-size: 14px;
+        box-shadow: none;
+    }
+
+    .form-textarea:focus {
+        border-bottom: 2px solid black;
+        outline: none;
+    }
+    #submitCommentButton:disabled {
+        background-color: #f2f2f2;
+        color: #909090;
+        border: none;
+        cursor: not-allowed;
+    }
+</style>
+
+<body id="page-video">
+    <!-- navbar -->
+    <div id="navbar"></div>
+    <div class="container-fluid ">
+        <div class="d-flex justify-content-center ">
+            <!-- main section -->
+            <main class="flex-grow-1 me-2 me-lg-4 ps-2 ps-xl-5  ms-2 ms-xl-4" id="mainContainer">
+                <!-- video section -->
+                <div class="main-video ratio ratio-16x9" id="mainVideoIframeContainer">
+                </div>
+
+                <!-- video description section -->
+                <div class="video-description mt-3" id="videoDescriptionContainer">
+                    <!-- title -->
+                    <div class="video-buttons d-flex justify-content-between align-items-center">
+                        <!-- channel buttons -->
+                        <div class="d-flex" id="channelButtonGroup">
+                        </div>
+                        <!-- video related buttons -->
+                        <div class="video-btn-group d-flex">
+                            <div class="like-dislike d-flex me-2">
+                                <button class="btn btn-gray rounded-start-pill " type="button" id="videoLikeButton">
+                                    <i class="bi bi-hand-thumbs-up me-2" id="thumbsUpIcon"></i><span class="small-span" id="videoLikeNum"></span>
+                                </button>
+                                <div class="divider my-2" style="width: 1px; background: #ccc;"></div>
+                                    <button class="btn btn-gray rounded-end-pill" type="button" id="videoDislikeButton"><i class="bi bi-hand-thumbs-down" id="thumbsDownIcon"></i></button>
+                                </div>
+                                <button class="btn btn-gray btn-video rounded-pill me-2" type="button">
+                                    <i class="bi bi-box-arrow-up-right me-2"></i><span class="small-span">공유</span>
+                                </button>
+                                <button id="offlineSaveButton" class="btn btn-gray btn-video rounded-pill me-2" type="button">
+                                    <i class="bi bi-download me-2"></i><span class="small-span">오프라인 저장</span>
+                                </button>
+                                <button id="thanksButton" class="btn btn-gray btn-video rounded-pill me-2" type="button">
+                                    <i class="bi bi-cash-coin me-2"></i><span class="small-span">Thanks</span>
+                                </button>
+                                <button id="bookmarkButton" class="btn btn-gray btn-video rounded-pill me-2" type="button">
+                                    <i class="bi bi-bookmark me-2"></i><span class="small-span">저장</span>
+                                </button>
+                                <button class="btn btn-gray rounded-pill" type="button"><i class="bi bi-three-dots"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- video description section -->
+                        <div id="videoDescriptionBox" class="my-2 mb-2 px-3 py-2 " role="button" style="background-color: #f2f2f2; border-radius: 12px; pointer-events: auto;">
+                            <span class="fw-semibold small-span d-block" id="viewsAndDateText"></span>
+                            <span class="small-span text-truncate-3-lines" id="videoDescriptionText" style="max-height: 65px;"></span>
+                            <span id="collapseDescriptionButton" role="button" class="slightly-bold small-span" style="display: none;">간략히</span>
+                        </div>
+                </div>
+
+                <div id="recommendedSmallScreenContainer" class="row g-3 mt-4" ></div>
+
+                <!-- video comment section -->
+                <div class="video-comment-container mt-3">
+                    <!-- comment counting -->
+                    <div class="video-comment-count py-2 d-flex align-items-center">
+                        <h5 class="fw-bold pt-2" id="commentCountText"></h5>
+                        <button class="btn" type="button"><i class="bi bi-filter-left"></i><span class="small-span">정렬 기준</span></button>
+                    </div>
+                    <!-- comment input -->
+                    <div id="dummyCommentInputContainer" class="d-flex align-items-center d-block" >
+                        <img src="./images/sample_img.webp" alt="Comment Profile Image" class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                        <textarea id="dummyInputButton" class="w-100 mt-3 button-textarea" rows="1" placeholder="댓글 추가..."></textarea>
+                    </div>
+                    <div id="focusedCommentInputContainer" class="d-none">
+                        <!-- comment textarea section -->
+                        <form action="#">
+                            <!-- profile section -->
+                            <div id="video-comment-profile" class="d-flex align-items-center">
+                                <img src="./images/sample_img.webp" alt="Comment Profile Image" class="rounded-circle me-2" style="width: 36px; height: 36px;">
+                                <div class="mx-1 py-0">
+                                    <span class="d-block small-span">사용자</span>
+                                    <span class="d-block small-span" id="commentAuthorId">@cactus-y</span>
+                                </div>
+                                <button id="btn-profile-edit" class="btn" type="button"><i class="bi bi-pencil"></i></button>
+                            </div>
+                            <div id="comment-form-group">
+                                <textarea id="realCommentTextArea" class="w-100 mt-3 form-textarea" rows="1"></textarea>
+                            </div>
+                            <div id="comment-btn-group" class="d-flex justify-content-end">
+                                <button id="cancelCommentButton" class="btn btn-light rounded-pill me-1" type="reset"><span class="small-span">취소</span></button>
+                                <button id="submitCommentButton" class="btn btn-primary rounded-pill ms-1" type="button" disabled><span class="small-span">댓글</span></button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- comments list -->
+                    <div id="commentListContainer" class="mb-3"></div>
+                </div>
+            </main>
+
+            <!-- recommended videos list -->
+            <aside class="me-5 me-lg-4 me-md-3" id="recommendedVideoListContainer">
+            </aside>
+        </div>
+    </div>
+
+    <!-- for sidebar modal view -->
+    <div class="modal custom-slide" id="sidebarModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" style="margin: 0; height: 100%; max-width: 240px;">
+            <div class="modal-content border-0 rounded-0" style="height: 100vh;">
+                <div class="modal-body  p-0" id="sidebarModalContent">
+                    <!-- modal content will come here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script type="module" src="./scripts/navbar.js"></script>
+    <script type="module" src="./scripts/video.js"></script>
+</body>
+
+</html>
