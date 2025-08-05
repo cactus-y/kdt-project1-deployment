@@ -120,7 +120,7 @@ function handleSidebarToggle() {
         }
 
         // if sidebar's modal view is not loaded, fetch it.
-        fetch('../html/modal_sidebar.html')
+        fetch('./modal_sidebar.html')
             .then(res => res.text())
             .then(html => {
                 const modalWrapper = document.getElementById('sidebarModalContent')
